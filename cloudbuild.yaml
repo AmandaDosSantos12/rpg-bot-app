@@ -1,0 +1,23 @@
+---
+steps:
+  #Load requirements
+  -name: python
+  entrypoint: pip
+  args: ["install", '-r', "requirements.txt", "--user"]
+
+  #Create image
+  -name: docker
+  args: ["build", "-t",
+         "us-east4.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/myimage:${SHORT_SHA}", "."]
+
+  #Push image to Artifact Registry
+  -name: docker
+  args: ["push", "us-east4.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/myimage:${SHORT_SHA}"]
+
+  #Deploy image
+  -name: google/cloud-sdk
+  args: ["gcloud", "run" ,"deploy", "rpg-bot-app-${SHORT_SHA}",
+         "--image=us-east4.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/myimage:${SHORT_SHA}",
+         "--region", "us-east4", "--platform", "managed", "--allow-unauthenticated"]
+
+...

@@ -5,7 +5,7 @@ from game_master import GameMaster as GM
 pn.extension()
 
 def get_user_response(contents):
-    response = gamemaster.respond(contents)
+    response = "I'm Dave"
     sleep(1)
     for index in range(len(response)):
         yield response[0:index+1]

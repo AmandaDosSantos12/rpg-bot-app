@@ -5,13 +5,11 @@ from game_master import GameMaster as GM
 pn.extension()
 
 def get_user_response(contents):
-#    response = gamemaster.respond(contents)
-    response = "Hi, I'm Dave!"
+    response = gamemaster.respond(contents)
     sleep(1)
     for index in range(len(response)):
         yield response[0:index+1]
         sleep(0.3)
-    return response
 
 
 def start_chat():
@@ -24,9 +22,9 @@ def start_chat():
         and guide them through an epic adventure.
         """
     GM_model = "gemini-1.5-flash"
-#    Dave = GM(GM_prompt, GM_model)
+    Dave = GM(GM_prompt, GM_model)
 
-    chat = pn.chat.ChatInterface(callback = get_user_response,
+    chat = pn.chat.ChatInterface(callback = Dave.respond,
                                  max_height = 5000,
                                  show_rerun = False,
                                  show_undo = False,

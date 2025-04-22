@@ -1,12 +1,15 @@
-FROM python:3.11-slim
+# syntax=docker/dockerfile:1
+FROM ubuntu/python:3.12-24.04_stable
 
-# Install dependencies
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install panel
 
-# Copy code
-COPY app/main.py .
-COPY app/game_master.py .
-COPY app/secret.py .
+COPY app.py .
+COPY game_master.py .
 
-CMD ["python3", "main.py"]
+EXPOSE 8080
+CMD ["panel", "serve", "app.py", "--port", "8080",
+"--allow-websocket-origin", "rpg-bot-app-793630530088.us-central1.run.app/app",
+"--threaded", "True"]
+
+
+
